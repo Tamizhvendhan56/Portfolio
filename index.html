@@ -1,11 +1,83 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tamizhvendhan | AI Full Stack Developer & UI/UX Designer</title>
+    <meta name="description"
+        content="Tamizhvendhan - AI Full Stack Developer & UI/UX Designer crafting intelligent digital experiences with cutting-edge technology.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00f7ff',
+                        secondary: '#ff00c8',
+                        accent: '#00ff66',
+                        dark: '#0a0a1a',
+                        darker: '#050510',
+                    },
+                    fontFamily: {
+                        exo: ['Exo 2', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float-slow': 'floatUp 6s ease-in-out infinite',
+                        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'slide-right': 'slideRight 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'morph': 'morph 8s ease-in-out infinite',
+                        'rotate-slow': 'rotateSlow 20s linear infinite',
+                        'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        floatUp: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glowPulse: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(0,247,255,0.3), 0 0 40px rgba(0,247,255,0.1)' },
+                            '50%': { boxShadow: '0 0 40px rgba(0,247,255,0.6), 0 0 80px rgba(0,247,255,0.3)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideRight: {
+                            '0%': { opacity: '0', transform: 'translateX(-40px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        morph: {
+                            '0%, 100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
+                            '25%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+                            '50%': { borderRadius: '50% 60% 30% 60% / 30% 60% 70% 40%' },
+                            '75%': { borderRadius: '60% 40% 60% 30% / 70% 40% 50% 60%' },
+                        },
+                        rotateSlow: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -29,6 +101,7 @@
             overflow-x: hidden;
             line-height: 1.6;
             cursor: none;
+            /* Hide default cursor */
         }
 
         /* Advanced Animated Background */
@@ -97,7 +170,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 linear-gradient(rgba(10, 10, 26, 0.7) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(10, 10, 26, 0.7) 1px, transparent 1px);
             background-size: 40px 40px;
@@ -105,70 +178,65 @@
             pointer-events: none;
         }
 
-        /* Enhanced Gooey Cursor with multiple layers */
-        .cursor {
+        /* Target Cursor CSS */
+        .target-cursor-wrapper {
             position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary);
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s ease;
-        }
-
-        .cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 247, 255, 0.2);
             mix-blend-mode: difference;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.3s ease, background 0.3s ease, width 0.3s ease, height 0.3s ease;
-            filter: blur(2px);
+            transform: translate(-50%, -50%);
         }
 
-        .cursor-active {
-            transform: translate(-50%, -50%) scale(1.5);
-            background: rgba(255, 0, 200, 0.3);
-        }
-
-        .cursor-follower-active {
-            transform: translate(-50%, -50%) scale(1.3);
-            background: rgba(255, 0, 200, 0.1);
-            width: 50px;
-            height: 50px;
-        }
-
-        /* Particle effects for cursor */
-        .cursor-particle {
-            position: fixed;
-            width: 6px;
-            height: 6px;
+        .target-cursor-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
             border-radius: 50%;
-            background: var(--accent);
-            pointer-events: none;
-            z-index: 9997;
-            opacity: 0;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+            box-shadow: 0 0 10px var(--primary);
         }
 
-        @keyframes particle-anim {
-            0% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(
-                    calc(-50% + var(--tx)), 
-                    calc(-50% + var(--ty))
-                ) scale(0);
-            }
+        .target-cursor-corner {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--primary);
+            will-change: transform;
+            box-shadow: 0 0 5px var(--primary);
+        }
+
+        .corner-tl {
+            transform: translate(-150%, -150%);
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            transform: translate(50%, -150%);
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-br {
+            transform: translate(50%, 50%);
+            border-left: none;
+            border-top: none;
+        }
+
+        .corner-bl {
+            transform: translate(-150%, 50%);
+            border-right: none;
+            border-top: none;
         }
 
         /* Section styling */
@@ -270,10 +338,11 @@
         /* Hero Section */
         #hero {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
             align-items: center;
             text-align: center;
+            overflow: hidden;
         }
 
         .hero-content {
@@ -309,6 +378,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -610,15 +680,19 @@
             0% {
                 transform: translate(0, 0) rotate(0deg);
             }
+
             25% {
                 transform: translate(20px, 20px) rotate(90deg);
             }
+
             50% {
                 transform: translate(0, 40px) rotate(180deg);
             }
+
             75% {
                 transform: translate(-20px, 20px) rotate(270deg);
             }
+
             100% {
                 transform: translate(0, 0) rotate(360deg);
             }
@@ -629,33 +703,62 @@
                 transform: scale(1);
                 opacity: 0.8;
             }
+
             50% {
                 transform: scale(1.1);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 0.8;
             }
         }
 
+        /* Mobile Menu Styles */
+        .mobile-menu-open {
+            display: flex !important;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(5, 5, 16, 0.97);
+            backdrop-filter: blur(20px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            gap: 0;
+        }
+
+        .mobile-menu-open li {
+            margin: 15px 0;
+            margin-left: 0;
+        }
+
+        .mobile-menu-open a {
+            font-size: 1.5rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
+
             .about-content,
             .contact-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .timeline::after {
                 left: 31px;
             }
-            
+
             .timeline-item {
                 width: 100%;
                 padding-left: 70px;
                 padding-right: 25px;
             }
-            
+
             .timeline-item:nth-child(even) {
                 left: 0;
             }
@@ -663,31 +766,59 @@
 
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
-            
+
             .hero-subtitle {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
-            
+
             .nav-links {
                 display: none;
             }
-            
+
             .skills-container {
                 grid-template-columns: 1fr;
             }
-            
+
             body {
                 cursor: auto;
             }
-            
-            .cursor, .cursor-follower {
+
+            .cursor,
+            .cursor-follower {
                 display: none;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 4%;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-description {
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Advanced Animated Background -->
     <div class="background">
@@ -698,14 +829,27 @@
     </div>
     <div class="grid-overlay"></div>
 
-    <!-- Gooey Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+    <!-- Target Cursor -->
+    <div id="target-cursor" class="target-cursor-wrapper">
+        <div class="target-cursor-dot"></div>
+        <div class="target-cursor-corner corner-tl"></div>
+        <div class="target-cursor-corner corner-tr"></div>
+        <div class="target-cursor-corner corner-br"></div>
+        <div class="target-cursor-corner corner-bl"></div>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar">
         <a href="#" class="logo">TAMIZH<span>DEV</span></a>
-        <ul class="nav-links">
+        <!-- Hamburger Menu -->
+        <button id="menuBtn"
+            class="md:hidden flex flex-col gap-[5px] bg-transparent border-none cursor-pointer z-[1001] p-2"
+            onclick="toggleMenu()">
+            <span class="block w-6 h-[2px] bg-primary transition-all duration-300" id="bar1"></span>
+            <span class="block w-6 h-[2px] bg-primary transition-all duration-300" id="bar2"></span>
+            <span class="block w-6 h-[2px] bg-primary transition-all duration-300" id="bar3"></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
@@ -719,13 +863,82 @@
 
     <!-- Hero Section -->
     <section id="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Tamizhvendhan</h1>
-            <h2 class="hero-subtitle">AI Full Stack Developer & UI/UX Designer</h2>
-            <p class="hero-description">Crafting intelligent digital experiences with cutting-edge technology and innovative design. I build AI-powered solutions that are both functional and beautiful.</p>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+        <div
+            class="flex flex-col lg:flex-row items-center justify-between w-full max-w-[1400px] mx-auto gap-8 lg:gap-16 px-4">
+            <!-- Left: Text Content -->
+            <div class="hero-content lg:w-1/2 order-2 lg:order-1 animate-slide-up"
+                style="text-align:left; align-items:flex-start; max-width:none;">
+                <p class="text-primary font-mono text-sm md:text-base mb-3 tracking-[4px] uppercase opacity-0 animate-fade-in"
+                    style="animation-delay: 0.2s; animation-fill-mode: forwards;">Hello, I'm</p>
+                <h1 class="hero-title lg:!text-7xl" style="text-align:left;">Tamizhvendhan</h1>
+                <h2 class="hero-subtitle" style="text-align:left;">AI Full Stack Developer &amp; UI/UX Designer</h2>
+                <p class="hero-description opacity-80" style="text-align:left; margin-left:0;">Crafting intelligent
+                    digital experiences with cutting-edge technology and innovative design. I build AI-powered solutions
+                    that are both functional and beautiful.</p>
+                <!-- Stats Row -->
+                <div class="flex gap-6 md:gap-10 mb-6 opacity-0 animate-slide-up"
+                    style="animation-delay: 0.6s; animation-fill-mode: forwards;">
+                    <div class="text-center">
+                        <span
+                            class="block text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">5+</span>
+                        <span class="text-xs md:text-sm opacity-60">Years Exp</span>
+                    </div>
+                    <div class="text-center">
+                        <span
+                            class="block text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">50+</span>
+                        <span class="text-xs md:text-sm opacity-60">Projects</span>
+                    </div>
+                    <div class="text-center">
+                        <span
+                            class="block text-2xl md:text-3xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">30+</span>
+                        <span class="text-xs md:text-sm opacity-60">Clients</span>
+                    </div>
+                </div>
+                <div class="cta-buttons" style="justify-content:flex-start;">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <!-- Right: Hero Image -->
+            <div class="lg:w-1/2 order-1 lg:order-2 flex justify-center items-center opacity-0 animate-fade-in"
+                style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+                <div class="relative">
+                    <!-- Decorative rotating rings -->
+                    <div
+                        class="absolute -inset-6 md:-inset-10 rounded-full border-2 border-primary/20 animate-rotate-slow">
+                    </div>
+                    <div class="absolute -inset-12 md:-inset-16 rounded-full border border-secondary/10 animate-rotate-slow"
+                        style="animation-direction: reverse; animation-duration: 25s;"></div>
+                    <!-- Glow backdrop -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 animate-morph blur-2xl scale-110">
+                    </div>
+                    <!-- Morphing image container -->
+                    <div class="relative w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[350px] md:h-[350px] lg:w-[400px] lg:h-[400px] animate-morph overflow-hidden shadow-2xl animate-glow-pulse"
+                        style="border: 3px solid rgba(0,247,255,0.3);">
+                        <img src="tamizh.jpg.jpeg" alt="Tamizhvendhan - AI Full Stack Developer"
+                            class="w-full h-full object-cover object-top">
+                    </div>
+                    <!-- Floating badges -->
+                    <div
+                        class="absolute -right-4 top-8 bg-darker/80 backdrop-blur-md border border-primary/30 rounded-xl px-3 py-2 animate-bounce-gentle hidden sm:block">
+                        <span class="text-primary text-lg">&#9889;</span>
+                        <span class="text-xs ml-1">AI Expert</span>
+                    </div>
+                    <div class="absolute -left-4 bottom-12 bg-darker/80 backdrop-blur-md border border-secondary/30 rounded-xl px-3 py-2 animate-bounce-gentle hidden sm:block"
+                        style="animation-delay: 1s;">
+                        <span class="text-secondary text-lg">&#127912;</span>
+                        <span class="text-xs ml-1">UI/UX Pro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll Indicator -->
+        <div
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce-gentle">
+            <span class="text-xs tracking-[3px] uppercase font-mono">Scroll</span>
+            <div class="w-5 h-8 border-2 border-primary/50 rounded-full flex justify-center pt-1">
+                <div class="w-1 h-2 bg-primary rounded-full animate-bounce"></div>
             </div>
         </div>
     </section>
@@ -736,82 +949,46 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Creating Digital Magic with Code & Design</h3>
-                    <p>I'm a passionate full stack developer and UI/UX designer with expertise in AI integration. With over 5 years of experience, I specialize in creating digital experiences that are not only visually stunning but also intelligent and functional.</p>
-                    <p>My approach combines technical expertise with creative design thinking to deliver solutions that exceed expectations and drive results.</p>
+                    <h3>Creating Digital Magic with Code &amp; Design</h3>
+                    <p>I am 18 year old, B.Tech student studying in Saveetha Institute of Medical And Technical
+                        Sciences. I really enjoy solving problems as well as making things pretty and easy to use. I
+                        can't stop learning new things; the more, the better.</p>
+                    <p>With over 2 years of experience in Web Development, I've helped startups and enterprises build
+                        scalable, performant applications that deliver real business value.</p>
+                    <p>My approach combines technical excellence with user-centered design principles to create
+                        solutions that are both powerful and intuitive.</p>
                 </div>
-                <div class="skills-container">
-                    <div class="skill">
-                        <div class="skill-name">
-                            <span>AI Integration</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 95%;"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <span>UI/UX Design</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 90%;"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <span>Frontend Development</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 92%;"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <span>Backend Development</span>
-                            <span>88%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 88%;"></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- ... existing code ... -->
             </div>
         </div>
     </section>
-
     <!-- Services Section -->
     <section id="services">
         <div class="container">
             <h2 class="section-title">My Services</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-brain"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-brain"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">AI Integration</h3>
-                        <p class="project-description">Implementing machine learning models and AI capabilities into web applications.</p>
+                        <p class="project-description">Implementing machine learning models and AI capabilities into web
+                            applications.</p>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-code"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-code"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">Full Stack Development</h3>
-                        <p class="project-description">Building responsive, scalable web applications from frontend to backend.</p>
+                        <p class="project-description">Building responsive, scalable web applications from frontend to
+                            backend.</p>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-pencil-ruler"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-pencil-ruler"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">UI/UX Design</h3>
-                        <p class="project-description">Creating intuitive, user-centered designs that enhance the user experience.</p>
+                        <p class="project-description">Creating intuitive, user-centered designs that enhance the user
+                            experience.</p>
                     </div>
                 </div>
             </div>
@@ -824,12 +1001,11 @@
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-robot"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-robot"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">AI-Powered E-commerce</h3>
-                        <p class="project-description">An intelligent online shopping platform with personalized recommendations.</p>
+                        <p class="project-description">An intelligent online shopping platform with personalized
+                            recommendations.</p>
                         <div class="project-tags">
                             <span class="project-tag">AI</span>
                             <span class="project-tag">React</span>
@@ -838,12 +1014,11 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-chart-line"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">Data Visualization Dashboard</h3>
-                        <p class="project-description">Interactive dashboard for analyzing and visualizing complex data sets.</p>
+                        <p class="project-description">Interactive dashboard for analyzing and visualizing complex data
+                            sets.</p>
                         <div class="project-tags">
                             <span class="project-tag">D3.js</span>
                             <span class="project-tag">Vue</span>
@@ -852,12 +1027,11 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
+                    <div class="project-img"><i class="fas fa-mobile-alt"></i></div>
                     <div class="project-content">
                         <h3 class="project-title">Fitness App UI/UX</h3>
-                        <p class="project-description">Mobile application design for tracking workouts and nutrition.</p>
+                        <p class="project-description">Mobile application design for tracking workouts and nutrition.
+                        </p>
                         <div class="project-tags">
                             <span class="project-tag">UI/UX</span>
                             <span class="project-tag">Figma</span>
@@ -905,40 +1079,31 @@
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-container">
                 <div class="skill">
-                    <div class="skill-name">
-                        <span>React & Vue.js</span>
-                        <span>94%</span>
-                    </div>
+                    <div class="skill-name"><span>React & Vue.js</span><span>94%</span></div>
                     <div class="skill-bar">
                         <div class="skill-level" style="width: 94%;"></div>
                     </div>
                 </div>
                 <div class="skill">
-                    <div class="skill-name">
-                        <span>Node.js & Python</span>
-                        <span>90%</span>
-                    </div>
+                    <div class="skill-name"><span>Node.js & Python</span><span>90%</span></div>
                     <div class="skill-bar">
                         <div class="skill-level" style="width: 90%;"></div>
                     </div>
                 </div>
                 <div class="skill">
-                    <div class="skill-name">
-                        <span>Machine Learning</span>
-                        <span>88%</span>
-                    </div>
+                    <div class="skill-name"><span>Machine Learning</span><span>88%</span></div>
                     <div class="skill-bar">
                         <div class="skill-level" style="width: 88%;"></div>
                     </div>
                 </div>
                 <div class="skill">
-                    <div class="skill-name">
-                        <span>UI/UX Design</span>
-                        <span>92%</span>
-                    </div>
+                    <div class="skill-name"><span>UI/UX Design</span><span>92%</span></div>
                     <div class="skill-bar">
                         <div class="skill-level" style="width: 92%;"></div>
                     </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Testimonials Section -->
@@ -948,14 +1113,16 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-content">
-                        <p>"Tamizhvendhan transformed our business with his AI integration expertise. The results exceeded our expectations."</p>
+                        <p>"Tamizhvendhan transformed our business with his AI integration expertise. The results
+                            exceeded our expectations."</p>
                         <h3 class="project-title">Sarah Johnson</h3>
                         <p class="project-description">CEO, TechSolutions Inc.</p>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-content">
-                        <p>"The UI/UX design work delivered was exceptional. Our user engagement increased by 45% after the redesign."</p>
+                        <p>"The UI/UX design work delivered was exceptional. Our user engagement increased by 45% after
+                            the redesign."</p>
                         <h3 class="project-title">Michael Chen</h3>
                         <p class="project-description">Product Manager, InnovateCo</p>
                     </div>
@@ -971,27 +1138,21 @@
             <div class="contact-container">
                 <div class="contact-info">
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h3>Email</h3>
-                            <p>tamil1122@gmail.com</p>
+                            <p>tamizhvendhan46@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
                         <div>
                             <h3>Phone</h3>
                             <p>+91 9944823432</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h3>Location</h3>
                             <p>Kanchipuram, Tamilnadu, India</p>
@@ -999,17 +1160,12 @@
                     </div>
                 </div>
                 <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" class="form-input" placeholder="Your Name" required>
+                    <div class="form-group"><input type="text" class="form-input" placeholder="Your Name" required>
                     </div>
-                    <div class="form-group">
-                        <input type="email" class="form-input" placeholder="Your Email" required>
+                    <div class="form-group"><input type="email" class="form-input" placeholder="Your Email" required>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" placeholder="Subject">
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-input" placeholder="Your Message" required></textarea>
+                    <div class="form-group"><input type="text" class="form-input" placeholder="Subject"></div>
+                    <div class="form-group"><textarea class="form-input" placeholder="Your Message" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
@@ -1021,7 +1177,8 @@
     <footer>
         <div class="social-links">
             <a href="https://github.com/Tamizhvendhan56" class="social-link"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/tamizhvendhan-m-69b58a378/" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.linkedin.com/in/tamizhvendhan-m-69b58a378/" class="social-link"><i
+                    class="fab fa-linkedin-in"></i></a>
             <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
             <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
         </div>
@@ -1029,119 +1186,307 @@
     </footer>
 
     <script>
-        // Enhanced Gooey Cursor Effect with Particles
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        
-        let mouseX = 0;
-        let mouseY = 0;
-        let followerX = 0;
-        let followerY = 0;
-        let speed = 0.2;
-        
-        // Particle system
-        const particles = [];
-        const particleCount = 15;
-        
-        // Create particles
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('cursor-particle');
-            document.body.appendChild(particle);
-            particles.push({
-                element: particle,
-                x: 0,
-                y: 0,
-                size: Math.random() * 4 + 2,
-                speedX: Math.random() * 10 - 5,
-                speedY: Math.random() * 10 - 5,
-                angle: 0,
-                size: Math.random() * 4 + 3
-            });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('mobile-menu-open');
         }
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-        });
-        
-        // Animation loop for smooth follower movement
-        const animate = () => {
-            // Move follower with easing
-            followerX += (mouseX - followerX) * speed;
-            followerY += (mouseY - followerY) * speed;
-            
-            cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
-            
-            // Update particles
-            particles.forEach((particle, index) => {
-                if (Math.abs(particle.x - mouseX) > 100 || Math.abs(particle.y - mouseY) > 100) {
-                    particle.x = mouseX;
-                    particle.y = mouseY;
-                    
-                    // Animate particle
-                    particle.element.style.animation = 'none';
-                    particle.element.offsetHeight; // Trigger reflow
-                    particle.element.style.animation = `particle-anim ${Math.random() * 1000 + 500}ms forwards`;
-                }
-            });
-            
-            requestAnimationFrame(animate);
-        };
-        
-        animate();
-        
-        // Interactive cursor effects
-        const links = document.querySelectorAll('a, button, .project-card, .social-link');
-        
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-active');
-                cursorFollower.classList.add('cursor-follower-active');
-            });
-            
-            link.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-active');
-                cursorFollower.classList.remove('cursor-follower-active');
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#navLinks a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('mobile-menu-open');
             });
         });
-        
-        // Animate elements on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.project-card, .skill, .timeline-item');
-            
-            elements.forEach(element => {
-                const position = element.getBoundingClientRect();
-                
-                if(position.top < window.innerHeight - 100) {
-                    element.style.opacity = 1;
-                    element.style.transform = 'translateY(0)';
+
+        /**
+         * TargetCursor Implementation (Vanilla JS Port)
+         */
+        const initTargetCursor = () => {
+            const cursorWrapper = document.getElementById('target-cursor');
+            const dot = cursorWrapper.querySelector('.target-cursor-dot');
+            const corners = cursorWrapper.querySelectorAll('.target-cursor-corner');
+
+            // Configuration
+            const config = {
+                targetSelector: 'a, button, .project-card, .social-link, .cursor-target',
+                spinDuration: 2,
+                hideDefaultCursor: true,
+                hoverDuration: 0.2,
+                parallaxOn: true,
+                borderWidth: 3,
+                cornerSize: 12
+            };
+
+            // State
+            let activeTarget = null;
+            let currentLeaveHandler = null;
+            let resumeTimeout = null;
+            let isActive = false;
+            let targetCornerPositions = null;
+            let activeStrength = { current: 0 };
+            let spinTl = null;
+
+            // Mobile detection
+            const isMobile = (() => {
+                const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                const isSmallScreen = window.innerWidth <= 768;
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+                return (hasTouchScreen && isSmallScreen) || mobileRegex.test(userAgent.toLowerCase());
+            })();
+
+            if (isMobile) {
+                cursorWrapper.style.display = 'none';
+                document.body.style.cursor = 'auto';
+                return;
+            }
+
+            // Initial Setup
+            if (config.hideDefaultCursor) {
+                document.body.style.cursor = 'none';
+            }
+
+            gsap.set(cursorWrapper, {
+                xPercent: -50,
+                yPercent: -50,
+                x: window.innerWidth / 2,
+                y: window.innerHeight / 2
+            });
+
+            // Spin Animation
+            const createSpinTimeline = () => {
+                if (spinTl) spinTl.kill();
+                spinTl = gsap.timeline({ repeat: -1 })
+                    .to(cursorWrapper, { rotation: '+=360', duration: config.spinDuration, ease: 'none' });
+            };
+            createSpinTimeline();
+
+            // Cursor Movement
+            const moveCursor = (x, y) => {
+                gsap.to(cursorWrapper, {
+                    x,
+                    y,
+                    duration: 0.1,
+                    ease: 'power3.out'
+                });
+            };
+
+            window.addEventListener('mousemove', (e) => moveCursor(e.clientX, e.clientY));
+
+            // Ticker Function (Animation Loop)
+            const tickerFn = () => {
+                if (!targetCornerPositions || !isActive) return;
+
+                const strength = activeStrength.current;
+                if (strength === 0) return;
+
+                const cursorX = gsap.getProperty(cursorWrapper, 'x');
+                const cursorY = gsap.getProperty(cursorWrapper, 'y');
+
+                corners.forEach((corner, i) => {
+                    const currentX = gsap.getProperty(corner, 'x');
+                    const currentY = gsap.getProperty(corner, 'y');
+
+                    const targetX = targetCornerPositions[i].x - cursorX;
+                    const targetY = targetCornerPositions[i].y - cursorY;
+
+                    const finalX = currentX + (targetX - currentX) * strength;
+                    const finalY = currentY + (targetY - currentY) * strength;
+
+                    const duration = strength >= 0.99 ? (config.parallaxOn ? 0.2 : 0) : 0.05;
+
+                    gsap.to(corner, {
+                        x: finalX,
+                        y: finalY,
+                        duration: duration,
+                        ease: duration === 0 ? 'none' : 'power1.out',
+                        overwrite: 'auto'
+                    });
+                });
+            };
+            gsap.ticker.add(tickerFn);
+
+            // Cleanup Target Helper
+            const cleanupTarget = (target) => {
+                if (currentLeaveHandler) {
+                    target.removeEventListener('mouseleave', currentLeaveHandler);
+                }
+                currentLeaveHandler = null;
+            };
+
+            // Mouse Enter/Hover Logic
+            const enterHandler = (e) => {
+                // Find closest target
+                let target = e.target.closest(config.targetSelector);
+
+                if (!target || !cursorWrapper) return;
+                if (activeTarget === target) return;
+
+                if (activeTarget) cleanupTarget(activeTarget);
+                if (resumeTimeout) {
+                    clearTimeout(resumeTimeout);
+                    resumeTimeout = null;
+                }
+
+                activeTarget = target;
+
+                // Stop spin and reset rotation
+                gsap.killTweensOf(corners);
+                gsap.killTweensOf(cursorWrapper, 'rotation');
+                spinTl?.pause();
+                gsap.set(cursorWrapper, { rotation: 0 });
+
+                // Calculate target positions
+                const rect = target.getBoundingClientRect();
+                const { borderWidth, cornerSize } = config;
+                const cursorX = gsap.getProperty(cursorWrapper, 'x');
+                const cursorY = gsap.getProperty(cursorWrapper, 'y');
+
+                // tl, tr, br, bl relative positions
+                targetCornerPositions = [
+                    { x: rect.left - borderWidth, y: rect.top - borderWidth },
+                    { x: rect.right + borderWidth - cornerSize, y: rect.top - borderWidth },
+                    { x: rect.right + borderWidth - cornerSize, y: rect.bottom + borderWidth - cornerSize },
+                    { x: rect.left - borderWidth, y: rect.bottom + borderWidth - cornerSize }
+                ];
+
+                isActive = true;
+
+                // Animate to target
+                gsap.to(activeStrength, {
+                    current: 1,
+                    duration: config.hoverDuration,
+                    ease: 'power2.out'
+                });
+
+                corners.forEach((corner, i) => {
+                    gsap.to(corner, {
+                        x: targetCornerPositions[i].x - cursorX,
+                        y: targetCornerPositions[i].y - cursorY,
+                        duration: 0.2,
+                        ease: 'power2.out'
+                    });
+                });
+
+                // Mouse Leave Logic
+                const leaveHandler = () => {
+                    isActive = false;
+                    targetCornerPositions = null;
+                    gsap.set(activeStrength, { current: 0, overwrite: true });
+                    activeTarget = null;
+
+                    // Return corners to original positions
+                    const { cornerSize } = config;
+                    const positions = [
+                        { x: -cornerSize * 1.5, y: -cornerSize * 1.5 }, // tl
+                        { x: cornerSize * 0.5, y: -cornerSize * 1.5 },  // tr
+                        { x: cornerSize * 0.5, y: cornerSize * 0.5 },   // br
+                        { x: -cornerSize * 1.5, y: cornerSize * 0.5 }    // bl
+                    ];
+
+                    corners.forEach((corner, index) => {
+                        gsap.to(corner, {
+                            x: positions[index].x,
+                            y: positions[index].y,
+                            duration: 0.3,
+                            ease: 'power3.out'
+                        });
+                    });
+
+                    // Resume Spin
+                    resumeTimeout = setTimeout(() => {
+                        if (!activeTarget && cursorWrapper) {
+                            const currentRotation = gsap.getProperty(cursorWrapper, 'rotation');
+                            const normalizedRotation = currentRotation % 360;
+
+                            if (spinTl) spinTl.kill();
+                            spinTl = gsap.timeline({ repeat: -1 })
+                                .to(cursorWrapper, { rotation: '+=360', duration: config.spinDuration, ease: 'none' });
+
+                            gsap.to(cursorWrapper, {
+                                rotation: normalizedRotation + 360,
+                                duration: config.spinDuration * (1 - normalizedRotation / 360),
+                                ease: 'none',
+                                onComplete: () => {
+                                    spinTl?.restart();
+                                }
+                            });
+                        }
+                        resumeTimeout = null;
+                    }, 50);
+
+                    cleanupTarget(target);
+                };
+
+                currentLeaveHandler = leaveHandler;
+                target.addEventListener('mouseleave', leaveHandler);
+            };
+
+            window.addEventListener('mouseover', enterHandler, { passive: true });
+
+            // Click Effects
+            const mouseDownHandler = () => {
+                gsap.to(dot, { scale: 0.7, duration: 0.3 });
+                gsap.to(cursorWrapper, { scale: 0.9, duration: 0.2 });
+            };
+
+            const mouseUpHandler = () => {
+                gsap.to(dot, { scale: 1, duration: 0.3 });
+                gsap.to(cursorWrapper, { scale: 1, duration: 0.2 });
+            };
+
+            window.addEventListener('mousedown', mouseDownHandler);
+            window.addEventListener('mouseup', mouseUpHandler);
+
+            // Scroll Handling
+            window.addEventListener('scroll', () => {
+                if (!activeTarget || !cursorWrapper) return;
+
+                // Check if still over target
+                const mouseX = gsap.getProperty(cursorWrapper, 'x');
+                const mouseY = gsap.getProperty(cursorWrapper, 'y');
+                const elementUnderMouse = document.elementFromPoint(mouseX, mouseY);
+
+                const isStillOverTarget = elementUnderMouse &&
+                    (elementUnderMouse === activeTarget || elementUnderMouse.closest(config.targetSelector) === activeTarget);
+
+                if (!isStillOverTarget && currentLeaveHandler) {
+                    currentLeaveHandler();
+                }
+            }, { passive: true });
+        };
+
+        // Initialize Cursor
+        initTargetCursor();
+
+        // Animate elements on scroll with IntersectionObserver
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
-        };
-        
-        // Set initial state for animation
-        document.querySelectorAll('.project-card, .skill, .timeline-item').forEach(element => {
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card, .skill, .timeline-item, .contact-item').forEach(element => {
             element.style.opacity = 0;
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            scrollObserver.observe(element);
         });
-        
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
-        
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                
                 const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
+                if (targetId === '#') return;
                 const targetElement = document.querySelector(targetId);
-                if(targetElement) {
+                if (targetElement) {
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
@@ -1149,6 +1494,20 @@
                 }
             });
         });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(5, 5, 16, 0.95)';
+                navbar.style.boxShadow = '0 4px 30px rgba(0, 247, 255, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(5, 5, 16, 0.8)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
     </script>
+
 </body>
+
 </html>
