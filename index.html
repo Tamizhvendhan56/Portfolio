@@ -11,8 +11,16 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        window.addEventListener('load', () => {
+            if (typeof tailwind === 'undefined') {
+                console.warn('Tailwind CDN failed to load. Using fallback styles.');
+                document.documentElement.classList.add('no-tailwind');
+            }
+        });
+        window.tailwind = window.tailwind || {};
         tailwind.config = {
             theme: {
                 extend: {
@@ -75,7 +83,7 @@
                     },
                 },
             },
-        }
+        };
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
@@ -276,23 +284,30 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(5, 5, 16, 0.8);
+            background: rgba(5, 5, 16, 0.9);
             border-bottom: 1px solid rgba(0, 247, 255, 0.1);
         }
 
         .logo {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--primary);
             text-decoration: none;
-            display: flex;
-            align-items: center;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .logo {
+                font-size: 1.8rem;
+            }
         }
 
         .logo span {
@@ -335,19 +350,76 @@
             width: 100%;
         }
 
-        /* Hero Section */
         #hero {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
             align-items: center;
-            text-align: center;
+            justify-content: center;
+            padding: 120px 5% 60px;
             overflow: hidden;
         }
 
+        .hero-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            gap: 40px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-container {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+
         .hero-content {
-            max-width: 900px;
-            z-index: 1;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-img-box {
+            width: 250px;
+            height: 250px;
+            position: relative;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            overflow: hidden;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+            background: var(--darker);
+        }
+
+        @media (min-width: 768px) {
+            .hero-img-box {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-img-box {
+                width: 450px;
+                height: 450px;
+            }
+        }
+
+        .hero-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
         }
 
         .hero-title {
@@ -367,11 +439,17 @@
         }
 
         .hero-description {
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            opacity: 0.8;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-description {
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
 
         .cta-buttons {
@@ -816,6 +894,87 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* Fallback for when Tailwind doesn't load */
+        .no-tailwind .hero-title {
+            color: var(--primary);
+            font-size: 3rem;
+            font-weight: 800;
+        }
+
+        .no-tailwind .hero-subtitle {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .no-tailwind .hero-description {
+            margin-top: 20px;
+            color: rgba(240, 240, 255, 0.7);
+        }
+
+        .no-tailwind .text-primary {
+            color: var(--primary);
+        }
+
+        .no-tailwind .font-mono {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .no-tailwind .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .no-tailwind .tracking-\[4px\] {
+            letter-spacing: 4px;
+        }
+
+        .no-tailwind .uppercase {
+            text-transform: uppercase;
+        }
+
+        .no-tailwind .opacity-0 {
+            opacity: 0;
+        }
+
+        .no-tailwind .animate-fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        .no-tailwind .flex {
+            display: flex;
+        }
+
+        .no-tailwind .gap-6 {
+            gap: 1.5rem;
+        }
+
+        .no-tailwind .md\:gap-10 {
+            gap: 2.5rem;
+        }
+
+        .no-tailwind .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .no-tailwind .text-center {
+            text-align: center;
+        }
+
+        .no-tailwind .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .no-tailwind .font-bold {
+            font-weight: 700;
+        }
+
+        .no-tailwind .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .no-tailwind .opacity-60 {
+            opacity: 0.6;
+        }
     </style>
 </head>
 
@@ -840,7 +999,7 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="logo">TAMIZH<span>DEV</span></a>
+        <a href="#" class="logo">TAMIZH<span>VENDHAN</span></a>
         <!-- Hamburger Menu -->
         <button id="menuBtn"
             class="md:hidden flex flex-col gap-[5px] bg-transparent border-none cursor-pointer z-[1001] p-2"
@@ -863,11 +1022,9 @@
 
     <!-- Hero Section -->
     <section id="hero">
-        <div
-            class="flex flex-col lg:flex-row items-center justify-between w-full max-w-[1400px] mx-auto gap-8 lg:gap-16 px-4">
+        <div class="hero-container">
             <!-- Left: Text Content -->
-            <div class="hero-content lg:w-1/2 order-2 lg:order-1 animate-slide-up"
-                style="text-align:left; align-items:flex-start; max-width:none;">
+            <div class="hero-content animate-slide-up">
                 <p class="text-primary font-mono text-sm md:text-base mb-3 tracking-[4px] uppercase opacity-0 animate-fade-in"
                     style="animation-delay: 0.2s; animation-fill-mode: forwards;">Hello, I'm</p>
                 <h1 class="hero-title lg:!text-7xl" style="text-align:left;">Tamizhvendhan</h1>
@@ -900,7 +1057,7 @@
                 </div>
             </div>
             <!-- Right: Hero Image -->
-            <div class="lg:w-1/2 order-1 lg:order-2 flex justify-center items-center opacity-0 animate-fade-in"
+            <div class="hero-image-wrapper animate-fade-in"
                 style="animation-delay: 0.4s; animation-fill-mode: forwards;">
                 <div class="relative">
                     <!-- Decorative rotating rings -->
@@ -914,10 +1071,8 @@
                         class="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/10 animate-morph blur-2xl scale-110">
                     </div>
                     <!-- Morphing image container -->
-                    <div class="relative w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[350px] md:h-[350px] lg:w-[400px] lg:h-[400px] animate-morph overflow-hidden shadow-2xl animate-glow-pulse"
-                        style="border: 3px solid rgba(0,247,255,0.3);">
-                        <img src="tamizh.jpg.jpeg" alt="Tamizhvendhan - AI Full Stack Developer"
-                            class="w-full h-full object-cover object-top">
+                    <div class="hero-img-box animate-morph animate-glow-pulse">
+                        <img src="tamizh.jpg.jpeg" alt="Tamizhvendhan - AI Full Stack Developer">
                     </div>
                     <!-- Floating badges -->
                     <div
@@ -958,7 +1113,32 @@
                     <p>My approach combines technical excellence with user-centered design principles to create
                         solutions that are both powerful and intuitive.</p>
                 </div>
-                <!-- ... existing code ... -->
+                <div class="skills-container">
+                    <div class="skill">
+                        <div class="skill-name"><span>AI Integration</span><span>95%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name"><span>UI/UX Design</span><span>90%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name"><span>Frontend Development</span><span>92%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name"><span>Backend Development</span><span>88%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 88%;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
